@@ -35,19 +35,19 @@ You are required to perform the following tasks:
     - API Server
     - Chat Server
     - Spam Detector Service
-    - NATS (using a deployment file)
+    - NATS (using a deployment file or use any alternative)
 - Write a StatefulSet YAML file for PostgreSQL, ensuring persistent data storage.
 
 ### CI/CD Pipeline
 
 - Create `cloudbuild.yaml` files for:
-    - Building and pushing Docker images for each microservice to a container registry (e.g., Google Container Registry or DockerHub).
+    - Building and pushing Docker images for each microservice to a container registry (e.g., Google Container Registry).
     - Deploying the services to Kubernetes.
 
 ### Infrastructure as Code (IaC)
 
 - Use Terraform to define infrastructure resources:
-    - A Kubernetes cluster (e.g., GKE, EKS, or AKS).
+    - A Kubernetes cluster (e.g., GKE).
     - Networking (VPC, subnets, etc., if applicable).
     - Persistent storage for PostgreSQL.
     - Required IAM roles and service accounts.
