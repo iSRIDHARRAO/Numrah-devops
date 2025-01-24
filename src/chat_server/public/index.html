@@ -1,0 +1,69 @@
+<!-- client/index.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Socket.io Chat App</title>
+  </head>
+  <body>
+    <div id="chat">
+      <ul id="messages"></ul>
+      <!-- Token input form -->
+      <form id="tokenForm" action="">
+        <input
+          id="tokenInput"
+          autocomplete="off"
+          placeholder="Enter your JWT token"
+        />
+        <button type="submit">Submit Token</button>
+      </form>
+      <form id="roomSearchForm" action="">
+        <p>Enter room Name or keep it blank to connect with random users</p>
+        <input
+          id="roomNameInput"
+          autocomplete="off"
+          placeholder="Enter the room name"
+        />
+        <button type="submit">Search</button>
+      </form>
+      <div id="connectionRequestContainer">
+        <p>You have a connection request!</p>
+        <button id="acceptButton">Accept</button>
+        <button id="rejectButton">Reject</button>
+      </div>
+      <div id="friendRequestContainer">
+        <button id="acceptFriendButton">Accept</button>
+        <button id="rejectFriendButton">Reject</button>
+      </div>
+      <!-- Message input form (hidden initially) -->
+      <form id="messageForm" action="">
+        <input id="input" autocomplete="off" placeholder="Type your message" />
+        <button type="submit">Send</button>
+      </form>
+      <form id="fileUploadForm" enctype="multipart/form-data">
+        <input
+          type="file"
+          id="fileInput"
+          accept=".pdf, .gif, .mp4, .jpg, .jpeg, .png"
+        />
+        <button type="submit">Upload</button>
+      </form>
+      <form id="friendRequestForm" action="">
+        <button type="submit">Send Friend Request</button>
+      </form>
+      <form id="leaveRoomForm" action="">
+        <button type="submit">Leave Room</button>
+      </form>
+    </div>
+    <!-- Include Socket.io client library -->
+    <script
+      src="https://cdn.socket.io/4.7.4/socket.io.min.js"
+      integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Include your main.js file -->
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
