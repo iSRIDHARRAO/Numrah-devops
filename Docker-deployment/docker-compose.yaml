@@ -1,0 +1,90 @@
+version: '3.9'
+
+networks:
+  app_network:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-container
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fadfed
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  nats:
+    image: nats:alpine
+    container_name: nats-container
+    ports:
+      - "4222:4222"
+    networks:
+      - app_network
+
+  api-server:
+    build:
+      context: ../src/api_server
+      dockerfile: Dockerfile
+    image: api-server:1.0.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - .env:/usr/src/app/.env:ro
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    user: "appuser:appgroup"
+    depends_on:
+      - postgres
+      - nats
+    networks:
+      - app_network
+
+  chat-server:
+    build:
+      context: ../src/chat_server
+      dockerfile: Dockerfile
+    image: chat-server:1.0.0
+    ports:
+      - "3001:3001"
+    volumes:
+      - .env:/usr/src/app/.env:ro
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    user: "appuser:appgroup"
+    depends_on:
+      - api-server
+    networks:
+      - app_network
+
+  spam-service:
+    build:
+      context: ../src/spam_service
+      dockerfile: Dockerfile
+    image: spam-service:1.0.0
+    volumes:
+      - .env:/usr/src/app/.env:ro
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    user: "appuser:appgroup"
+    depends_on:
+      - chat-server
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
