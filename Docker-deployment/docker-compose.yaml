@@ -35,7 +35,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ../src/.env:/usr/src/app/.env:ro
+      - .env:/usr/src/app/.env:ro
     read_only: true
     security_opt:
       - no-new-privileges:true
@@ -56,7 +56,7 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - ../src/.env:/usr/src/app/.env:ro
+      - .env:/usr/src/app/.env:ro
     read_only: true
     security_opt:
       - no-new-privileges:true
@@ -74,7 +74,7 @@ services:
       dockerfile: Dockerfile
     image: spam-service:1.0.0
     volumes:
-      - ../src/.env:/usr/src/app/.env:ro
+      - .env:/usr/src/app/.env:ro
     read_only: true
     security_opt:
       - no-new-privileges:true
