@@ -36,7 +36,7 @@ async function createEnumTypes() {
   `
 
   try {
-    await pool.query(createEnumQuery)
+    await pool.query(createEnumQuery);
     logger.info('gender_enum and status_enum created successfully')
   } catch (error) {
     logger.error(error, 'Error creating ENUM types')
