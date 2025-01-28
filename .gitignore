@@ -3,4 +3,4 @@ node_modules
 src/api_server/uploads/*
 package-lock.json
 .terraform*
-terraform.tfstate*
+terraform.tfstate.*
