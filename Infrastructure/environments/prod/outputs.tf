@@ -16,3 +16,7 @@ output "router_id" {
 output "firewall_id" {
   value = module.vpc.firewall_id
 }
+
+output "repository_urls" {
+  value = module.artifact-registry.repository_urls
+}

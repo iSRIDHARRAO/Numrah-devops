@@ -9,3 +9,12 @@ variable "project_id" {
 variable "region" {
   type = string  
 }
+
+variable "repository_names" {
+  description = "A list of Artifact Registry repository names."
+  type        = list(string)
+}
+
+variable "location" {
+  type = string  
+}
