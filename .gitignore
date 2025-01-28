@@ -1,3 +1,6 @@
 node_modules
 .env
 src/api_server/uploads/*
+.terraform/
+.terraform.lock.hcl
+package-lock.json
