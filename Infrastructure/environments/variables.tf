@@ -19,9 +19,7 @@ variable "location" {
   type = string  
 }
 
-variable "sa_email" {
-  type = string
-}
+
 variable "role" {
   type = string
   
@@ -47,3 +45,4 @@ variable "gke_master_cidr" {
   type = string
   
 }
+

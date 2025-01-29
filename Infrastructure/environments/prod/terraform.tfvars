@@ -10,4 +10,3 @@ node_pool_name = "gke-default-node-pool"
 role = "roles/container.defaultNodeServiceAccount"
 
 gke_master_cidr = "10.0.2.0/28"
-sa_email = "numrah-gke@tmp-devops.iam.gserviceaccount.com"
