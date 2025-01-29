@@ -1,0 +1,9 @@
+steps:
+  - name: 'alpine'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - 'echo "Hello World"'
+options:
+  logging: CLOUD_LOGGING_ONLY
+timeout: '1200s'
