@@ -32,3 +32,16 @@ module "gke" {
     node_pool_name = var.node_pool_name
     gke_master_cidr = var.gke_master_cidr
 }
+
+module "filestore_instance" {
+  source = "../modules/gfs"
+  for_each    = var.filestore_instances
+  filestore_name   = each.value.filestore_name
+  instance_description = each.value.instance_description
+  project_id  = var.project_id
+  zone        = var.location
+  tier        = each.value.tier
+  networks    = each.value.networks
+  file_shares = each.value.file_shares
+  network_name          = module.vpc.vpc_name
+}
