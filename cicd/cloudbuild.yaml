@@ -3,7 +3,8 @@ substitutions:
   _REGION: "asia-south1"
   _GKE_CLUSTER: "numrah-prod"
   _GKE_ZONE: "asia-south1-a"
-
+options:
+  automapSubstitutions: true
 steps:
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
