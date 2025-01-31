@@ -1,11 +1,11 @@
 substitutions:
   _PROJECT_ID: "tmp-devops"
-  _REGION: "asia-south1" 
+  _REGION: "asia-south1"
   _GKE_CLUSTER: "numrah-prod"
   _GKE_ZONE: "asia-south1-a"
 
 steps:
-  - name: 'ubuntu'
+  - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
     args:
       - '-c'
@@ -38,7 +38,7 @@ steps:
       - |
         COMMIT_HASH=$(cat /workspace/commit_hash.txt)
         for SERVICE in $(cat /workspace/changed_services.txt); do
-          IMAGE="$_REGION-docker.pkg.dev/$_PROJECT_ID/$SERVICE:1.0.0-$COMMIT_HASH"
+          IMAGE="$_REGION-docker.pkg.dev/$_PROJECT_ID/${SERVICE//_/-}:1.0.0-$COMMIT_HASH"
           echo "Building $SERVICE -> $IMAGE"
           docker build -t $IMAGE ./src/$SERVICE
           docker push $IMAGE
@@ -57,7 +57,7 @@ steps:
           IMAGE=$(grep "^$SERVICE=" /workspace/deploy_images.txt | cut -d '=' -f2)
           echo "Deploying $SERVICE with $IMAGE"
 
-          kubectl set image deployment/$SERVICE $SERVICE=$IMAGE -n $SERVICE
+          kubectl set image deployment/${SERVICE//_/-} ${SERVICE//_/-}=$IMAGE -n $SERVICE
         done
 
 options:
