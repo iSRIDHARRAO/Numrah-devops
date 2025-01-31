@@ -8,7 +8,7 @@ options:
 
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/api-server:1.0.0-$SHORT_SHA', '.','-f','../src/api_server']
+    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/api-server:1.0.0-$SHORT_SHA', '.','-f','./src/api_server/Dockerfile']
 
 options:
   logging: CLOUD_LOGGING_ONLY
