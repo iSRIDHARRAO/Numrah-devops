@@ -5,61 +5,59 @@ substitutions:
   _GKE_ZONE: "asia-south1-a"  
 
 steps:
-  - name: 'gcr.io/cloud-builders/git'
-    entrypoint: 'sh'
-    args:
-      - '-c'
-      - |
-        # Get the short commit hash (first 6 characters)
-        COMMIT_HASH=$(git rev-parse --short=6 HEAD)
-        echo "Commit hash: $COMMIT_HASH"
+- name: 'ubuntu'
+  script: |
+    #!/usr/bin/env bash
+    # Get the short commit hash (first 6 characters)
+    COMMIT_HASH=$(git rev-parse --short=6 HEAD)
+    echo "Commit hash: $COMMIT_HASH"
 
-        # Check for changes in the services
-        CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
-        echo "Changed Files: $CHANGED_FILES"
+    # Check for changes in the services
+    CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+    echo "Changed Files: $CHANGED_FILES"
 
-        # Determine which services need to be rebuilt
-        SERVICES=""
-        for SERVICE in chat-server api-server spam-service; do
-          if echo "$CHANGED_FILES" | grep -q "^src/$SERVICE/"; then
-            SERVICES="$SERVICES $SERVICE"
-          fi
-        done
+    # Determine which services need to be rebuilt
+    SERVICES=""
+    for SERVICE in chat-server api-server spam-service; do
+      if echo "$CHANGED_FILES" | grep -q "^src/$SERVICE/"; then
+        SERVICES="$SERVICES $SERVICE"
+      fi
+    done
 
-        echo "Modified services: $SERVICES"
-        echo "$SERVICES" > /workspace/changed_services.txt
-        echo "COMMIT_HASH=$COMMIT_HASH" > /workspace/commit_hash.txt
+    echo "Modified services: $SERVICES"
+    echo "$SERVICES" > /workspace/changed_services.txt
+    echo "COMMIT_HASH=$COMMIT_HASH" > /workspace/commit_hash.txt
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'Build & Push'
-    entrypoint: 'sh'
-    args:
-      - '-c'
-      - |
-        COMMIT_HASH=$(cat /workspace/commit_hash.txt)
-        for SERVICE in $(cat /workspace/changed_services.txt); do
-          IMAGE="$_REGION-docker.pkg.dev/$_PROJECT_ID/$SERVICE:1.0.0-$COMMIT_HASH"
-          echo "Building $SERVICE -> $IMAGE"
-          docker build -t $IMAGE ./src/$SERVICE/Dockerfile
-          docker push $IMAGE
-          echo "$SERVICE=$IMAGE" >> /workspace/deploy_images.txt
-        done
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build & Push'
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+      COMMIT_HASH=$(cat /workspace/commit_hash.txt)
+      for SERVICE in $(cat /workspace/changed_services.txt); do
+        IMAGE="$_REGION-docker.pkg.dev/$_PROJECT_ID/$SERVICE:1.0.0-$COMMIT_HASH"
+        echo "Building $SERVICE -> $IMAGE"
+        docker build -t $IMAGE ./src/$SERVICE/Dockerfile
+        docker push $IMAGE
+        echo "$SERVICE=$IMAGE" >> /workspace/deploy_images.txt
+      done
 
-  - name: 'gcr.io/cloud-builders/gke-deploy'
-    id: 'Deploy to GKE'
-    entrypoint: 'sh'
-    args:
-      - '-c'
-      - |
-        gcloud container clusters get-credentials $_GKE_CLUSTER --zone $_GKE_ZONE --project $_PROJECT_ID
-        
-        for SERVICE in $(cat /workspace/changed_services.txt); do
-          IMAGE=$(grep "^$SERVICE=" /workspace/deploy_images.txt | cut -d '=' -f2)
-          echo "Deploying $SERVICE with $IMAGE"
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  id: 'Deploy to GKE'
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+      gcloud container clusters get-credentials $_GKE_CLUSTER --zone $_GKE_ZONE --project $_PROJECT_ID
+      
+      for SERVICE in $(cat /workspace/changed_services.txt); do
+        IMAGE=$(grep "^$SERVICE=" /workspace/deploy_images.txt | cut -d '=' -f2)
+        echo "Deploying $SERVICE with $IMAGE"
 
-          kubectl set image deployment/$SERVICE $SERVICE=$IMAGE -n $SERVICE
-        done
+        kubectl set image deployment/$SERVICE $SERVICE=$IMAGE -n $SERVICE
+      done
 
 options:
-  logging: CLOUD_LOGGING_ONLY
+logging: CLOUD_LOGGING_ONLY
 timeout: '1200s'
