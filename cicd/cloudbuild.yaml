@@ -5,16 +5,14 @@ substitutions:
   _GKE_ZONE: "asia-south1-a"
 options:
   automapSubstitutions: true
+
 steps:
   - name: 'gcr.io/cloud-builders/git'
-    entrypoint: 'bash'
+    id: 'Determine Changed Services'
+    entrypoint: 'sh'
     args:
       - '-c'
       - |
-        # Get the short commit hash (first 6 characters)
-        COMMIT_HASH=$(git rev-parse --short=6 HEAD)
-        echo "Commit hash: $COMMIT_HASH"
-
         # Check for changes in the services
         CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
         echo "Changed Files: $CHANGED_FILES"
@@ -29,7 +27,6 @@ steps:
 
         echo "Modified services: $SERVICES"
         echo "$SERVICES" > /workspace/changed_services.txt
-        echo "$COMMIT_HASH" > /workspace/commit_hash.txt
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build & Push'
@@ -37,9 +34,8 @@ steps:
     args:
       - '-c'
       - |
-        COMMIT_HASH=$(cat /workspace/commit_hash.txt)
         for SERVICE in $(cat /workspace/changed_services.txt); do
-          IMAGE="$_REGION-docker.pkg.dev/$_PROJECT_ID/${SERVICE//_/-}:1.0.0-$COMMIT_HASH"
+          IMAGE="$_REGION-docker.pkg.dev/$_PROJECT_ID/${SERVICE//_/-}:1.0.0-$SHORT_SHA"
           echo "Building $SERVICE -> $IMAGE"
           docker build -t $IMAGE ./src/$SERVICE
           docker push $IMAGE
