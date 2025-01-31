@@ -6,7 +6,7 @@ substitutions:
 options:
   automapSubstitutions: true
 
-steps:
+steps: 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/api-server:1.0.0-$SHORT_SHA', './src/api_server/','-f','./src/api_server/Dockerfile']
 
