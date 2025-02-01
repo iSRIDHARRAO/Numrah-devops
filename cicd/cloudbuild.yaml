@@ -27,25 +27,25 @@ steps:
     args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0-$SHORT_SHA']
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment/api-server', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/api-server:1.0.0-$SHORT_SHA']
+    args: ['set', 'image', 'deployment/api-server', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/api-server:1.0.0-$SHORT_SHA', '-n','numrah']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=asia-south1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=tmp-devops'
-    id: 'deploy'
+    id: 'deploy-api-server'
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment/chat-server', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/chat-server:1.0.0-$SHORT_SHA']
+    args: ['set', 'image', 'deployment/chat-server', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/chat-server:1.0.0-$SHORT_SHA','-n','numrah']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=asia-south1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=tmp-devops'
-    id: 'deploy'
+    id: 'deploy-chat-server'
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment/spam-service', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0-$SHORT_SHA',]
+    args: ['set', 'image', 'deployment/spam-service', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0-$SHORT_SHA','-n','numrah']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=asia-south1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=tmp-devops'
-    id: 'deploy'
+    id: 'deploy-spam-service'
 
 options:
   logging: CLOUD_LOGGING_ONLY
