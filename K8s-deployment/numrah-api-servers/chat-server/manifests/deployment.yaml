@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-server
+  namespace: numrah
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chat-server
+  template:
+    metadata:
+      labels:
+        app: chat-server
+    spec:
+      containers:
+        - name: chat-server
+          image: asia-south1-docker.pkg.dev/tmp-devops/numrah/chat-server:1.0.0-c37d1fe
+          ports:
+            - containerPort: 3001
+          volumeMounts:
+            - name: env-volume
+              mountPath: /tmp/
+      volumes:
+        - name: env-volume
+          secret:
+            secretName: numrah-secret

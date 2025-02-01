@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spam-service
+  namespace: numrah
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spam-service
+  template:
+    metadata:
+      labels:
+        app: spam-service
+    spec:
+      containers:
+        - name: spam-service
+          image: asia-south1-docker.pkg.dev/tmp-devops/numrah/spam-service:1.0.0-c9fb621
+          volumeMounts:
+            - name: env-volume
+              mountPath: /tmp/
+          command: ["sleep","infinity"]
+      volumes:
+        - name: env-volume
+          secret:
+            secretName: numrah-secret
