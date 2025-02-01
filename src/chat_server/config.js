@@ -6,7 +6,7 @@ dotenv.config({ path: envPath })
 
 const config = Object.freeze({
   ENV: process.env.ENV || 'dev',
-  PORT: process.env.CHAT_SERVER_PORT || 3001,
+  PORT: process.env.NUMRAH_CHAT_SERVER_PORT || 3001,
   DB_USER: process.env.DB_USER || 'db_user',
   DB_HOST: process.env.DB_HOST || 'localhost',
   DB_NAME: process.env.DB_NAME || 'db_name',
