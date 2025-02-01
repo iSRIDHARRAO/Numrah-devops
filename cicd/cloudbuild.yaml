@@ -30,21 +30,21 @@ steps:
     args: ['set', 'image', 'deployment/api-server', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/api-server:1.0.0-$SHORT_SHA', '-n','numrah']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=asia-south1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=$__GKE_CLUSTER'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=$_GKE_CLUSTER'
     id: 'deploy-api-server'
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['set', 'image', 'deployment/chat-server', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/chat-server:1.0.0-$SHORT_SHA','-n','numrah']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=asia-south1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=$__GKE_CLUSTER'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=$_GKE_CLUSTER'
     id: 'deploy-chat-server'
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['set', 'image', 'deployment/spam-service', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0-$SHORT_SHA','-n','numrah']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=asia-south1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=$__GKE_CLUSTER'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=$_GKE_CLUSTER'
     id: 'deploy-spam-service'
 
 options:
