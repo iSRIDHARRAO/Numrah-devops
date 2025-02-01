@@ -1,7 +1,7 @@
 import path from 'path'
 import dotenv from 'dotenv'
 
-const envPath = path.resolve(process.cwd(), '..', '.env')
+const envPath = path.resolve('/tmp/','.env')
 dotenv.config({ path: envPath })
 
 const config = Object.freeze({
