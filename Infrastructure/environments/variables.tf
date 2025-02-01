@@ -67,3 +67,9 @@ variable "filestore_instances" {
     })
   )
 }
+
+variable "artifact_registry_role" {
+  type = string
+  default = "roles/artifactregistry.reader"
+  
+}

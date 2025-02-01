@@ -20,3 +20,10 @@ output "firewall_id" {
 output "repository_urls" {
   value = module.artifact-registry.repository_urls
 }
+output "gfs_ip" {
+  value = { for k, v in module.filestore_instance : k => v.ip_address }
+}
+output "gfs_instance_name" {
+  value = { for k, v in module.filestore_instance : k => v.instance_name }
+}
+

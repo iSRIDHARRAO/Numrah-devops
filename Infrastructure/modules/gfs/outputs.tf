@@ -3,5 +3,5 @@ output "instance_name" {
 }
 
 output "ip_address" {
-  value = google_filestore_instance.filestore_instance.networks[0].ip_addresses[0]
+  value = google_filestore_instance.filestore_instance.networks[0].ip_addresses
 }

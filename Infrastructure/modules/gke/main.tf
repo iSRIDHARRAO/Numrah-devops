@@ -12,10 +12,13 @@ resource "google_container_cluster" "gke" {
 
   addons_config {
     http_load_balancing {
-      disabled = true
+      disabled = false
     }
     horizontal_pod_autoscaling {
       disabled = false
+    }
+    gcp_filestore_csi_driver_config{
+      enabled = true
     }
   }
 
@@ -26,11 +29,6 @@ resource "google_container_cluster" "gke" {
   workload_identity_config {
     workload_pool = "${var.project_id}.svc.id.goog"
   }
-
-#   ip_allocation_policy {
-#     cluster_secondary_range_name = "k8s-pods-ip-range"
-#     services_secondary_range_name = "k8s-services-ip-range"
-#   }
 
   private_cluster_config {
     enable_private_nodes = true
