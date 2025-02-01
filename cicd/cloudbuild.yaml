@@ -1,9 +1,31 @@
-steps:
-  - name: 'alpine'
-    entrypoint: 'sh'
-    args:
-      - '-c'
-      - 'echo "Hello World"'
+substitutions:
+  _PROJECT_ID: "tmp-devops"
+  _REGION: "asia-south1"
+  _GKE_CLUSTER: "numrah-prod"
+  _GKE_ZONE: "asia-south1-a"
+  _REPO_NAME: "numrah"
+options:
+  automapSubstitutions: true
+
+steps: 
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/api-server:1.0.0-$SHORT_SHA', './src/api_server/','-f','./src/api_server/Dockerfile']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/chat-server:1.0.0-$SHORT_SHA', './src/api_server/','-f','./src/chat_server/Dockerfile']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0-$SHORT_SHA', './src/api_server/','-f','./src/spam_service/Dockerfile']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/api-server:1.0.0-$SHORT_SHA']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/chat-server:1.0.0-$SHORT_SHA']
+  
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0-$SHORT_SHA']
+
 options:
   logging: CLOUD_LOGGING_ONLY
 timeout: '1200s'

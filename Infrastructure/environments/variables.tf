@@ -46,3 +46,30 @@ variable "gke_master_cidr" {
   
 }
 
+variable "filestore_instances" {
+  type = map(object({
+    filestore_name             = string
+    instance_description       = string
+    tier              = string
+    networks          = object({
+      modes   = string
+      connect_mode = string
+    })
+    file_shares       = object({
+      name          = string
+      capacity_gb   = number
+      nfs_export_options = object({
+        ip_ranges = list(string)
+        access_mode = string
+        squash_mode = string
+      })
+    })
+    })
+  )
+}
+
+variable "artifact_registry_role" {
+  type = string
+  default = "roles/artifactregistry.reader"
+  
+}

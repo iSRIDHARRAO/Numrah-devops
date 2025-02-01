@@ -14,5 +14,10 @@ output "router_id" {
 }
 
 output "firewall_id" {
-  value = google_compute_firewall.allow_ssh.id
+  value = google_compute_firewall.allow_ingress
+}
+
+output "vpc_name" {
+    value = google_compute_network.vpc.name
+  
 }

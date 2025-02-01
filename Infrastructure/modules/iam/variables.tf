@@ -18,3 +18,8 @@ variable "role" {
   type        = string
   default     = "roles/container.defaultNodeServiceAccount"
 }
+variable "artifact_registry_role" {
+  type = string
+  default = "roles/artifactregistry.reader"
+  
+}
