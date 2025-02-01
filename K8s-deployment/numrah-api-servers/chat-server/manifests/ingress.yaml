@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chat-server-ingress
+  namespace: numrah
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chat-server
+                port:
+                  number: 80

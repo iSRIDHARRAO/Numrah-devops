@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-server-ingress
+  namespace: numrah
+  annotations:
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-server
+                port:
+                  number: 80

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nats
+  namespace: nats
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats
+  template:
+    metadata:
+      labels:
+        app: nats
+    spec:
+      containers:
+        - name: nats
+          image: nats:alpine
+          ports:
+            - containerPort: 4222
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
