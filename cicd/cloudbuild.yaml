@@ -9,22 +9,22 @@ options:
 
 steps: 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/api-server:1.0.0-$SHORT_SHA', './src/api_server/','-f','./src/api_server/Dockerfile']
+    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/api-server:1.0.0', './src/api_server/','-f','./src/api_server/Dockerfile']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/chat-server:1.0.0-$SHORT_SHA', './src/api_server/','-f','./src/chat_server/Dockerfile']
+    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/chat-server:1.0.0', './src/api_server/','-f','./src/chat_server/Dockerfile']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0-$SHORT_SHA', './src/api_server/','-f','./src/spam_service/Dockerfile']
+    args: ['build', '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0', './src/api_server/','-f','./src/spam_service/Dockerfile']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/api-server:1.0.0-$SHORT_SHA']
+    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/api-server:1.0.0']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/chat-server:1.0.0-$SHORT_SHA']
+    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/chat-server:1.0.0']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0-$SHORT_SHA']
+    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPO_NAME/spam-service:1.0.0']
 
 options:
   logging: CLOUD_LOGGING_ONLY
