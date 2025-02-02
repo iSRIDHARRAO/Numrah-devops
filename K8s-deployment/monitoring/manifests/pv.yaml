@@ -15,5 +15,5 @@ spec:
     driver: filestore.csi.storage.gke.io
     volumeHandle: "modeInstance/asia-south1/gke-filestore/filestore"
     volumeAttributes:
-      ip: 10.29.255.66
+      ip: 10.9.56.194
       volume: filestore

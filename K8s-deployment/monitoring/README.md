@@ -19,7 +19,7 @@ Before running `install.sh`, ensure that you update all placeholders in `manifes
 
 Before deploying the components, you need to replace the placeholders in the `pv.yaml` files.
 
-1. Locate the `grafana/manifests/pv.yaml` file.
+1. Locate the `manifests/pv.yaml` file.
 2. Replace the following placeholders:
    - `<file-store-region>`: The region where your file store is located.
    - `<file-store-name>`: The name of your file store.
@@ -67,7 +67,7 @@ Grafana's default login credentials are as follows:
 - **Password**: Retrieve the password from the secret:
 
 ```bash
-kubectl get secret grafana-admin-password -n monitoring -o jsonpath='{.data.password}' | base64 --decode
+kubectl get secret grafana-secret -n monitoring -o jsonpath='{.data.GF_SECURITY_ADMIN_PASSWORD}' | base64 --decode
 ```
 
 Use these credentials to log in to the Grafana dashboard.
