@@ -15,6 +15,19 @@ Before you begin, ensure the following:
 
 Before running `install.sh`, ensure that you update all placeholders in `manifests/pv.yaml`:
 
+#### Replace Placeholders in `pv.yaml`
+
+Before deploying the components, you need to replace the placeholders in the `pv.yaml` files.
+
+1. Locate the `grafana/manifests/pv.yaml` file.
+2. Replace the following placeholders:
+   - `<file-store-region>`: The region where your file store is located.
+   - `<file-store-name>`: The name of your file store.
+   - `<file-share-name>`: The name of the file share.
+   - `<file-store-ip>`: The IP address of your file store.
+   - `<size>`: The required size of the persistent volume (e.g., `10Gi`).
+
+    After replacing the placeholders, save the updated files.
 
 ### 2. Run the `install.sh` Script
 
