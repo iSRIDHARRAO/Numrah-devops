@@ -15,12 +15,13 @@ spec:
     spec:
       containers:
         - name: chat-server
-          image: asia-south1-docker.pkg.dev/tmp-devops/numrah/chat-server:1.0.0-c37d1fe
+          image: asia-south1-docker.pkg.dev/tmp-devops/numrah/chat-server:1.0.0-f12c276
           ports:
             - containerPort: 3001
           volumeMounts:
             - name: env-volume
               mountPath: /tmp/
+          # command: ["sleep","infinity"]
       volumes:
         - name: env-volume
           secret:

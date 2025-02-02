@@ -21,6 +21,7 @@ spec:
           volumeMounts:
             - name: env-volume
               mountPath: /tmp/
+      
       volumes:
         - name: env-volume
           secret:

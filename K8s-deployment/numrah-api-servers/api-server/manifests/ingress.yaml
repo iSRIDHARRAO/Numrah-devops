@@ -3,8 +3,12 @@ kind: Ingress
 metadata:
   name: api-server-ingress
   namespace: numrah
-  annotations:
 spec:
+  defaultBackend:
+    service:
+      name: api-server
+      port:
+        number: 80
   rules:
     - http:
         paths:
