@@ -4,3 +4,4 @@ src/api_server/uploads/*
 package-lock.json
 .terraform*
 terraform.tfstate.*
+*-password
