@@ -29,5 +29,7 @@ else
   kubectl apply -f manifests/deployment.yaml
   kubectl apply -f manifests/service.yaml
   kubectl apply -f manifests/ingress.yaml
-
+  helm install prometheus prometheus-community/prometheus --namespace monitoring
 fi
+
+
